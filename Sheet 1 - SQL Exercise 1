@@ -1,0 +1,127 @@
+--  List all drinkers that live on 123 Main St.
+SELECT name
+FROM Drinkers 
+WHERE addr = '123 Main St'
+;
+
+-- List all bars with address 456 Oak Ave.
+SELECT name
+FROM Bars
+WHERE addr = '456 Oak Ave'
+;
+
+-- List all bars that sell Corona OR Bud.
+SELECT DISTINCT bar
+FROM Sells
+WHERE beer = 'Corona' OR beer = 'Bud'
+;
+
+-- List all bars with a name starting with “The”.
+SELECT name
+FROM Bars
+WHERE name like 'The%'
+;
+
+-- List all bars that sell beer cheaper than 5€.
+SELECT bar
+FROM Sells
+WHERE price < 5.00
+;
+
+--  List all bars that sell Guinness, and their address.
+SELECT Sells.bar, Bars.addr
+FROM Sells 
+INNER JOIN Bars
+ON Sells.bar=Bars.name
+WHERE Sells.beer = 'Guinness'
+;
+
+-- 7. List all drinkers that like Bud, and their address.
+SELECT d.name, d.addr
+FROM Likes l
+INNER JOIN Drinkers d
+ON l.drinker=d.name
+WHERE l.beer = 'Bud'
+;
+
+-- 8. List all bars, the beers they sell, and the manufacturers of the beers
+SELECT Bars.name, Sells.beer, Beers.manf
+FROM Bars
+JOIN Sells ON Bars.name=Sells.bar
+JOIN Beers ON Sells.beer=Beers.name
+;
+
+-- 9. List all drinkers, their addresses, and the beers they like.
+SELECT d.name, d.addr, l.beer
+FROM Drinkers d 
+JOIN Likes l ON d.name=l.drinker
+;
+
+-- 10. List all bars that sell Corona, their address, and the price.
+SELECT s.bar, b.addr, s.price
+FROM Sells s 
+JOIN Bars b 
+ON s.bar=b.name
+WHERE s.beer= 'Corona'
+;
+
+-- 11. List all drinkers that live on 123 Main St and that like Bud
+SELECT d.name
+FROM Drinkers d
+JOIN Likes l ON d.name=l.drinker
+WHERE d.addr = '123 Main St' AND l.beer = 'Bud'
+;
+
+-- 12. 
+
+-- 13. 
+
+-- Create the table DrinkersBackup(name, addr) and fill it with the same data from Drinkers
+CREATE TABLE DrinkersBackup (
+  name VARCHAR(20), 
+  addr VARCHAR(50),
+  PRIMARY KEY (name)
+  );
+  
+INSERT INTO DrinkersBackup (name, addr)
+SELECT name, addr
+FROM Drinkers
+;
+
+-- 15. Create the table Frequents(drinker, bar).
+CREATE TABLE Frequents (
+  drinker VARCHAR(20),
+  bar VARCHAR(20)
+  );
+  
+-- 16. List all drinkers and bars with the same address
+SELECT d.name, b.name
+FROM Drinkers d 
+JOIN Bars b
+ON d.addr = b.addr
+;
+
+/* 17. List all pairs (drinker, bar) such that
+• the drinker and the bar have the same address (exactly like in the previous query), and
+• the bar sells beers that the drinker likes.*/
+SELECT DISTINCT d.name drinker, b.name bar
+FROM Drinkers d 
+JOIN Bars b ON d.addr = b.addr
+JOIN Likes l ON d.name=l.drinker
+JOIN Sells s ON s.bar=b.name
+WHERE s.beer=l.beer
+;
+
+-- 18. Same as the previous query, but insert the results in the Frequents table.
+INSERT INTO Frequents (
+  drinker,
+  bar)
+SELECT DISTINCT d.name drinker, b.name bar
+FROM Drinkers d 
+JOIN Bars b ON d.addr = b.addr
+JOIN Likes l ON d.name=l.drinker
+JOIN Sells s ON s.bar=b.name
+WHERE s.beer=l.beer
+;
+
+-- 
