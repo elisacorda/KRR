@@ -1,0 +1,9 @@
+-- 1. List each pair of parent and child living at the same address.
+SELECT Parents.parent, Parents.child
+FROM Parents
+JOIN Person pe1 ON pe1.name=Parents.parent
+JOIN Person pe2 on pe2.name=Parents.child
+WHERE pe1.addr=pe2.addr
+;
+
+-- List each pair of grandparent and child.
