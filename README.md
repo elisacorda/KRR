@@ -1,2 +1,2 @@
-# KRR2
-KRR2
+# KRR
+Knowledge Representation and Reasoning
