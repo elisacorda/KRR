@@ -64,3 +64,19 @@
 
 %1-18. Same as the previous query, but insert the results in the Frequents table.
 %Frequents(Drinker, Bar) :- drinker(Drinker, Address, _), bar(Bar, Address, _), likes(Drinker, Beer), sells(Bar, Beer, _).
+
+
+%2-1. List each pair of parent and child living at the same address.
+%answer(Parent, Child) :- parent(Parent, Child), person(Parent, Address, _), person(Child, Address, _).
+
+%2-2. List each pair of grandparent and child.
+%answer(Grandparent, Child) :- parent(Parent, Child), parent(Grandparent, Parent).
+
+%2-3. List each pair of grandparent and child living at the same address.
+%answer(Grandparent, Child) :- parent(Grandparent, Parent), parent(Parent, Child), person(Grandparent, Address, _), person(Child, Address, _).
+
+%2-4/5. For each pair (p, s) such that p is an ancestor3 of s, insert the pair (p, s) in Ancestors.
+Ancestors(Predecessor, Successor) :- parent(Predecessor, Successor).
+Ancestors(Predecessor, Successor) :- parent(Predecessor, X), Ancestor(X, Successor).
+
+
